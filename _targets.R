@@ -15,14 +15,8 @@ tar_options(
 )
 tar_pipeline(
   tar_target(
-    model,
-    "stan/model.stan",
-    format = "file",
-    deployment = "local"
-  ),
-  tar_target(
-    compiled,
-    compile_model(model),
+    model_files,
+    compile_model("stan/model.stan"),
     format = "file",
     deployment = "local"
   ),
@@ -39,7 +33,7 @@ tar_pipeline(
   ),
   tar_target(
     fit,
-    fit_model(compiled, data),
+    fit_model(model_files[1], data),
     pattern = map(data),
     format = "fst_tbl"
   ),

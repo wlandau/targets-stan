@@ -16,8 +16,14 @@ tar_options(
 tar_pipeline(
   tar_target(
     model_files,
+    # Returns the paths to the Stan file and the compiled model RDS file
+    # that rstan generates if you choose rstan_options(auto_write = TRUE).
     compile_model("stan/model.stan"),
+    # format = "file" means the return value is a character vector of files,
+    # and the `targets` package needs to watch for changes in the files
+    # at those paths.
     format = "file",
+    # Do not run on a parallel worker:
     deployment = "local"
   ),
   tar_target(
@@ -33,6 +39,10 @@ tar_pipeline(
   ),
   tar_target(
     fit,
+    # We supply the Stan model specification file. Stan automatically
+    # knows how to look for the compiled RDS model file, which
+    # is what is really being used here because we compiled the model
+    # ahead of time.
     fit_model(model_files[1], data),
     pattern = map(data),
     format = "fst_tbl"

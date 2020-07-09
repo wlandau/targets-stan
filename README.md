@@ -58,14 +58,14 @@ The files in this example are organized as follows.
 | `run.sh`          | Shell script to run `run.R` in a persistent background process. Works on Unix-like systems. Helpful for long computations on servers.                                                                                                                                                             |
 | `run.R`           | R script to run `tar_make()` or `tar_make_clustermq()` (uncomment the function of your choice.)                                                                                                                                                                                                   |
 | `_targets.R`      | The special R script that declares the [`targets`](https://github.com/wlandau/targets) pipeline. See `tar_script()` for details.                                                                                                                                                                  |
-| `sge.tmpl`        | A [`clustermq`](https://github.com/mschubert/clustermq) template file to deploy targets in parallel to a Sun Grid Engine cluster.                                                                                                                                                                 |
+| `sge.tmpl`        | A [`clustermq`](https://github.com/mschubert/clustermq) template file to deploy targets in parallel to a Sun Grid Engine cluster. The comments in this file explain some of the choices behind the pipeline construction and arguments to `tar_target()`.                                         |
 | `R/functions.R`   | An R script with user-defined functions. Unlike `_targets.R`, there is nothing special about the name or location of this script. In fact, for larger projects, it is good practice to partition functions into multiple files.                                                                   |
 | `stan/model.stan` | The specification of our Stan model.                                                                                                                                                                                                                                                              |
 | `report.Rmd`      | An R Markdown report summarizing the results of the analysis. For more information on how to include R Markdown reports as reproducible components of the pipeline, see the `tar_knitr()` function and the [literate programming chapter of the manual](https://wlandau.github.io/literate.html). |
 
 ## How to access
 
-This projec has an [RStudio
+This project has an [RStudio
 Cloud](https://rstudio.cloud/project/1430719/) workspace that lets you
 try out the example code in the cloud with only a web browser and an
 internet connection. Unfortunately, as [explained
@@ -97,8 +97,7 @@ simulations (the number inside `seq_len()` in the `index` target).
 
 You can run this project locally on your laptop or remotely on a
 cluster. You have several choices, and they each require modifications
-to `run.R` and
-`_targets.R`.
+to `run.R` and `_targets.R`.
 
 | Mode            | When to use                        | Instructions for `run.R`         | Instructions for `_targets.R`                                                     |
 | --------------- | ---------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |

@@ -11,7 +11,7 @@ options(clustermq.scheduler = "multicore")
 # on a Sun Grid Engine cluster when running tar_make_clustermq().
 # options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")
 
-tar_options(
+tar_option_set(
   packages = c("coda", "fs", "rmarkdown", "rstan", "targets", "tidyverse")
 )
 tar_pipeline(

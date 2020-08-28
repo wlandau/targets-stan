@@ -43,12 +43,13 @@ The files in this example are organized as follows.
 ```{r, eval = FALSE}
 ├── run.sh
 ├── run.R
-├── _targets.R
+├── _targets/
 ├── sge.tmpl
-├── R/
-├──── functions.R
-├── stan/
-├──── model.stan
+├── R
+│   ├── functions.R
+│   └── utils.R
+├── stan
+│   └── model.stan
 └── report.Rmd
 ```
 
@@ -58,7 +59,8 @@ File | Purpose
 [`run.R`](https://github.com/wlandau/targets-stan/blob/master/run.R) | R script to run `tar_make()` or `tar_make_clustermq()` (uncomment the function of your choice.)
 [`_targets.R`](https://github.com/wlandau/targets-stan/blob/master/_targets.R) | The special R script that declares the [`targets`](https://github.com/wlandau/targets) pipeline. See `tar_script()` for details.
 [`sge.tmpl`](https://github.com/wlandau/targets-stan/blob/master/sge.tmpl) | A [`clustermq`](https://github.com/mschubert/clustermq) template file to deploy targets in parallel to a Sun Grid Engine cluster. The comments in this file explain some of the choices behind the pipeline construction and arguments to `tar_target()`.
-[`R/functions.R`](https://github.com/wlandau/targets-stan/blob/master/R/functions.R) | An R script with user-defined functions. Unlike [`_targets.R`](https://github.com/wlandau/targets-stan/blob/master/_targets.R), there is nothing special about the name or location of this script. In fact, for larger projects, it is good practice to partition functions into multiple files.
+[`R/functions.R`](https://github.com/wlandau/targets-stan/blob/master/R/functions.R) | A custom R script with the most important user-defined functions.
+[`R/utils.R`](https://github.com/wlandau/targets-stan/blob/master/R/functions.R) | A custom R script with helper functions.
 [`stan/model.stan`](https://github.com/wlandau/targets-stan/blob/master/stan/model.stan) | The specification of our Stan model.
 [`report.Rmd`](https://github.com/wlandau/targets-stan/blob/master/report.Rmd) | An R Markdown report summarizing the results of the analysis. For more information on how to include R Markdown reports as reproducible components of the pipeline, see the `tar_render()` function from the [`tarchetypes`](https://wlandau.github.io/tarchetypes) package and the [literate programming chapter of the manual](https://wlandau.github.io/targets-manual/files.html#literate-programming).
 

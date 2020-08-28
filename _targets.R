@@ -1,6 +1,7 @@
 library(targets)
 library(tarchetypes)
 source("R/functions.R")
+source("R/utils.R")
 options(tidyverse.quiet = TRUE)
 
 # Uncomment below to use local multicore computing
@@ -29,8 +30,14 @@ tar_pipeline(
   ),
   tar_target(
     batch_index,
-    seq_len(4), # Change the number of simulations here.
+    seq_len(2), # Change the number of simulations here.
     deployment = "local"
+  ),
+  tar_target(
+    data_continuous,
+    map_dfr(seq_len(2), simulate_data_continuous),
+    pattern = map(batch_index),
+    format = "fst_tbl"
   ),
   tar_target(
     data_discrete,
@@ -39,11 +46,17 @@ tar_pipeline(
     format = "fst_tbl"
   ),
   tar_target(
-    fit_discrete,
+    fit_continuous,
     # We supply the Stan model specification file target,
     # not the literal path name. This is because {targets}
     # needs to know the model targets depend on the model compilation target.
-    quiet(fit_batch(model_file, data_discrete)),
+    quiet(map_reps(data_continuous, fit_model, model_file = model_file)),
+    pattern = map(data_continuous),
+    format = "fst_tbl"
+  ),
+  tar_target(
+    fit_discrete,
+    quiet(map_reps(data_discrete, fit_model, model_file = model_file)),
     pattern = map(data_discrete),
     format = "fst_tbl"
   ),

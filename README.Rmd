@@ -43,6 +43,7 @@ The files in this example are organized as follows.
 ```{r, eval = FALSE}
 ├── run.sh
 ├── run.R
+├── _targets.R
 ├── _targets/
 ├── sge.tmpl
 ├── R

@@ -44,6 +44,7 @@ The files in this example are organized as follows.
 ``` r
 ├── run.sh
 ├── run.R
+├── _targets.R
 ├── _targets/
 ├── sge.tmpl
 ├── R

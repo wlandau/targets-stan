@@ -26,7 +26,7 @@ Our results are in a data frame with one row per simulated dataset and columns w
 fit_continuous
 ```
 
-If we implemented the model in `stan/model.stan` correctly, then roughly 95% of model fits should cover the true `beta` parameter that generated the data in 95% credible intervals.
+If we implemented the model in `stan/model.stan` correctly, then roughly 90% of model fits should cover the true `beta` parameter that generated the data in 90% credible intervals.
 
 ```{r}
 mean(fit_continuous$cover_beta)

@@ -8,12 +8,11 @@
 #' @param model_file Path to a Stan model file.
 #'   This is a text file with the model spceification.
 #' @examples
-#' library(fs)
-#' library(rstan)
+#' library(cmdstanr)
 #' compile_model("stan/model.stan")
 compile_model <- function(model_file) {
-  stan_model(model_file, auto_write = TRUE, save_dso = TRUE)
-  c(model_file, path_ext_set(model_file, "rds"))
+  cmdstan_model(model_file)
+  model_file
 }
 
 #' @title Simulate data from the model.
@@ -24,9 +23,9 @@ compile_model <- function(model_file) {
 #'   * `beta_true`: The value of the regression coefficient `beta`
 #'     used to simulate the data.
 #' @examples
-#' library(tibble)
-#' simulate_data()
-simulate_data <- function() {
+#' library(tidyverse)
+#' simulate_data_favorable()
+simulate_data_favorable <- function() {
   alpha <- rnorm(1, 0, 1)
   beta <- rnorm(1, 0, 1)
   sigma <- runif(1, 0, 1)
@@ -54,39 +53,35 @@ simulate_data <- function() {
 #'     iterations, this is evidence of MCMC autocorrelation, which could mean
 #'     the model needs reparameterization.
 #' @examples
-#' library(coda)
-#' library(fs)
-#' library(rstan)
-#' library(tibble)
+#' library(cmdstanr)
+#' library(tidyverse)
 #' compile_model("stan/model.stan")
-#' fit_model("stan/model.stan", simulate_data())
+#' fit_model("stan/model.stan", simulate_data_favorable())
 fit_model <- function(model_file, data) {
-  # From https://github.com/stan-dev/rstan/issues/444#issuecomment-445108185,
-  # we need each stanfit object to have its own unique name, so we create
-  # a special new environment for it.
-  tmp_envir <- new.env(parent = baseenv())
-  tmp_envir$model <- stan_model(model_file, auto_write = TRUE, save_dso = TRUE)
-  tmp_envir$fit <- sampling(
-    object = tmp_envir$model,
-    data = list(x = data$x, y = data$y, n = nrow(data)),
-    refresh = 0
-  )
-  mcmc_list <- As.mcmc.list(tmp_envir$fit)
-  samples <- as.data.frame(as.matrix(mcmc_list))
-  beta_25 <- quantile(samples$beta, 0.25)
-  beta_median <- quantile(samples$beta, 0.5)
-  beta_75 <- quantile(samples$beta, 0.75)
+  stan_data <- list(x = data$x, y = data$y, n = nrow(data))
+  model <- cmdstan_model(model_file)
+  fit <- model$sample(data = stan_data, refresh = 0)
   beta_true <- data$beta_true[1]
-  beta_cover <- beta_25 < beta_true && beta_true < beta_75
-  psrf <- max(gelman.diag(mcmc_list, multivariate = FALSE)$psrf[, 1])
-  ess <- min(effectiveSize(mcmc_list))
-  tibble(
-    beta_cover = beta_cover,
-    beta_true = beta_true,
-    beta_25 = beta_25,
-    beta_median = beta_median,
-    beta_75 = beta_75,
-    psrf = psrf,
-    ess = ess
-  )
+  fit$summary() %>%
+    filter(variable == "beta") %>%
+    mutate(
+      beta_true = beta_true,
+      cover_beta = q5 < beta_true & beta_true < q95
+    )
+}
+
+#' @title Suppress stdout for code.
+#' @description Used in the pipeline.
+#' @return The result of running the code.
+#' @param code Code to run quietly.
+#' @examples
+#' library(coda)
+#' library(cmdstanr)
+#' library(tidyverse)
+#' compile_model("stan/model.stan")
+#' out <- quiet(fit_model("stan/model.stan", simulate_data_favorable()))
+#' out
+quiet <- function(code) {
+  capture.output(out <- suppressMessages(code))
+  out
 }

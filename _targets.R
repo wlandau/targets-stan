@@ -11,15 +11,15 @@ options(clustermq.scheduler = "multicore")
 # on a Sun Grid Engine cluster when running tar_make_clustermq().
 # options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")
 
-tar_option_set(
-  packages = c("coda", "fs", "rmarkdown", "rstan", "targets", "tidyverse")
-)
+# These packages only get loaded if a target needs to run.
+tar_option_set(packages = c("cmdstanr", "rmarkdown", "tidyverse"))
+
 tar_pipeline(
   tar_target(
-    model_files,
-    # Returns the paths to the Stan file and the compiled model RDS file
-    # that rstan generates if you choose rstan_options(auto_write = TRUE).
-    compile_model("stan/model.stan"),
+    model_file,
+    # Returns the paths to the Stan source file.
+    # cmdstanr skips compilation if the model is up to date.
+    quiet(compile_model("stan/model.stan")),
     # format = "file" means the return value is a character vector of files,
     # and the `targets` package needs to watch for changes in the files
     # at those paths.
@@ -29,23 +29,22 @@ tar_pipeline(
   ),
   tar_target(
     index,
-    seq_len(10), # Change the number of simulations here.
+    seq_len(4), # Change the number of simulations here.
     deployment = "local"
   ),
   tar_target(
-    data,
-    simulate_data(),
+    data_favorable,
+    quiet(simulate_data_favorable()),
     pattern = map(index),
     format = "fst_tbl"
   ),
   tar_target(
-    fit,
-    # We supply the Stan model specification file. Stan automatically
-    # knows how to look for the compiled RDS model file, which
-    # is what is really being used here because we compiled the model
-    # ahead of time.
-    fit_model(model_files[1], data),
-    pattern = map(data),
+    fit_favorable,
+    # We supply the Stan model specification file target,
+    # not the literal path name. This is because {targets}
+    # needs to know the model targets depend on the model compilation target.
+    quiet(fit_model(model_file, data_favorable)),
+    pattern = map(data_favorable),
     format = "fst_tbl"
   ),
   tar_render(report, "report.Rmd")

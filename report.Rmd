@@ -15,50 +15,45 @@ This report contains the validation results of a small Bayesian hierarchical mod
 
 ```{r}
 library(targets)
-tar_load(fit)
+tar_load(fit_favorable)
 ```
 
-Our results are in a data frame with one row per simulated dataset and the following columns.
-
-* `cover_beta`: Logical, whether the true value of `beta`
-  is covered in the 50% credible interval from the model.
-* `beta_true`: True value of `beta` used to simulate the original data.
-* `beta_25`: posterior 25th percentile of `beta`.
-* `beta_median`: posterior median of `beta`.
-* `beta_75`: posterior 75th percentile of `beta`.
-* `psrf`: Maximum potential scale reduction factor across all the model parameters. A value above 1.1 is traditionally considered evidence of lack of convergence.
-* `ess`: Minimum effective sample size across all the model parameters. If this value is far lower than the number of non-warmup MCMC iterations, this is evidence of MCMC autocorrelation, which could mean the model needs reparameterization.
+Our results are in a data frame with one row per simulated dataset and columns with information about our fitted models.
 
 ```{r, paged.print = FALSE}
-fit
+fit_favorable
 ```
 
-If we implemented the model in `stan/model.stan` correctly, then roughly 50% of model fits should cover the true `beta` parameter that generated the data.
+If we implemented the model in `stan/model.stan` correctly, then roughly 95% of model fits should cover the true `beta` parameter that generated the data in 95% credible intervals.
 
 ```{r}
-mean(fit$beta_cover)
+mean(fit_favorable$cover_beta)
 ```
 
 The posterior median of `beta` should be reasonably close to the true value.
 
 ```{r}
-ggplot(fit) +
-  geom_point(aes(x = beta_true, y = beta_median)) +
+ggplot(fit_favorable) +
+  geom_point(aes(x = beta_true, y = median)) +
   geom_abline(intercept = 0, slope = 1) +
   theme_gray(16)
 ```
 
-We should also check convergence diagnostics. `psrf` should ideally be low.
+We should also check convergence diagnostics. `rhat` should ideally be close to 1.
 
 ```{r}
-ggplot(fit) +
-  geom_histogram(aes(x = psrf))
+ggplot(fit_favorable) +
+  geom_histogram(aes(x = rhat), bins = 20)
 ```
 
 Effective sample size should ideally be high.
 
 ```{r}
-ggplot(fit) +
-  geom_histogram(aes(x = ess))
+ggplot(fit_favorable) +
+  geom_histogram(aes(x = ess_bulk), bins = 20)
 ```
 
+```{r}
+ggplot(fit_favorable) +
+  geom_histogram(aes(x = ess_tail), bins = 20)
+```

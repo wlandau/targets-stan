@@ -13,27 +13,29 @@ This report contains the validation results of a small Bayesian hierarchical mod
 1. Because of the `tar_render()` function from the [`tarchetypes`](https://wlandau.github.io/tarchetypes) package (see `_targets.R`) `targets` automatically detects the dependencies of this report and rebuilds it when its dependencies change.
 1. We can run the report by itself if the targets are already in the `_targets/` data store.
 
+## Discrete covariate
+
 ```{r}
 library(targets)
-tar_load(fit_favorable)
+tar_load(fit_discrete)
 ```
 
 Our results are in a data frame with one row per simulated dataset and columns with information about our fitted models.
 
 ```{r, paged.print = FALSE}
-fit_favorable
+fit_discrete
 ```
 
 If we implemented the model in `stan/model.stan` correctly, then roughly 95% of model fits should cover the true `beta` parameter that generated the data in 95% credible intervals.
 
 ```{r}
-mean(fit_favorable$cover_beta)
+mean(fit_discrete$cover_beta)
 ```
 
 The posterior median of `beta` should be reasonably close to the true value.
 
 ```{r}
-ggplot(fit_favorable) +
+ggplot(fit_discrete) +
   geom_point(aes(x = beta_true, y = median)) +
   geom_abline(intercept = 0, slope = 1) +
   theme_gray(16)
@@ -42,18 +44,18 @@ ggplot(fit_favorable) +
 We should also check convergence diagnostics. `rhat` should ideally be close to 1.
 
 ```{r}
-ggplot(fit_favorable) +
+ggplot(fit_discrete) +
   geom_histogram(aes(x = rhat), bins = 20)
 ```
 
 Effective sample size should ideally be high.
 
 ```{r}
-ggplot(fit_favorable) +
+ggplot(fit_discrete) +
   geom_histogram(aes(x = ess_bulk), bins = 20)
 ```
 
 ```{r}
-ggplot(fit_favorable) +
+ggplot(fit_discrete) +
   geom_histogram(aes(x = ess_tail), bins = 20)
 ```

@@ -28,23 +28,23 @@ tar_pipeline(
     deployment = "local"
   ),
   tar_target(
-    index,
+    batch_index,
     seq_len(4), # Change the number of simulations here.
     deployment = "local"
   ),
   tar_target(
-    data_favorable,
-    quiet(simulate_data_favorable()),
-    pattern = map(index),
+    data_discrete,
+    map_dfr(seq_len(2), simulate_data_discrete),
+    pattern = map(batch_index),
     format = "fst_tbl"
   ),
   tar_target(
-    fit_favorable,
+    fit_discrete,
     # We supply the Stan model specification file target,
     # not the literal path name. This is because {targets}
     # needs to know the model targets depend on the model compilation target.
-    quiet(fit_model(model_file, data_favorable)),
-    pattern = map(data_favorable),
+    quiet(fit_batch(model_file, data_discrete)),
+    pattern = map(data_discrete),
     format = "fst_tbl"
   ),
   tar_render(report, "report.Rmd")

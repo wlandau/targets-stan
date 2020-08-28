@@ -14,6 +14,7 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Renviron
+stan/model
 stan/model.rds
 _targets
 report.html

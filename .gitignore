@@ -2,6 +2,7 @@
 .Rhistory
 .Rapp.history
 .RData
+.Renviron
 .Ruserdata
 *-Ex.R
 /*.tar.gz

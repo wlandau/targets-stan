@@ -30,18 +30,18 @@ tar_pipeline(
   ),
   tar_target(
     batch_index,
-    seq_len(2), # Change the number of simulations here.
+    seq_len(2), # Change the number of simulation batches here.
     deployment = "local"
   ),
   tar_target(
     data_continuous,
-    map_dfr(seq_len(2), simulate_data_continuous),
+    map_dfr(seq_len(2), simulate_data_continuous), # Change number of continuous sims per batch here.
     pattern = map(batch_index),
     format = "fst_tbl"
   ),
   tar_target(
     data_discrete,
-    map_dfr(seq_len(2), simulate_data_discrete),
+    map_dfr(seq_len(2), simulate_data_discrete), # Change number of discrete sims per batch here.
     pattern = map(batch_index),
     format = "fst_tbl"
   ),

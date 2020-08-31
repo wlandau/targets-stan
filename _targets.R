@@ -20,7 +20,7 @@ tar_pipeline(
     model_file,
     # Returns the paths to the Stan source file.
     # cmdstanr skips compilation if the model is up to date.
-    quiet(compile_model("stan/model.stan")),
+    compile_model("stan/model.stan"),
     # format = "file" means the return value is a character vector of files,
     # and the `targets` package needs to watch for changes in the files
     # at those paths.
@@ -29,20 +29,25 @@ tar_pipeline(
     deployment = "local"
   ),
   tar_target(
-    batch_index,
+    index_batch,
     seq_len(2), # Change the number of simulation batches here.
     deployment = "local"
   ),
   tar_target(
+    index_sim,
+    seq_len(2), # Change the number of simulations per batch here.
+    deployment = "local"
+  ),
+  tar_target(
     data_continuous,
-    map_dfr(seq_len(2), simulate_data_continuous), # Change number of continuous sims per batch here.
-    pattern = map(batch_index),
+    map_dfr(index_sim, simulate_data_continuous),
+    pattern = map(index_batch),
     format = "fst_tbl"
   ),
   tar_target(
     data_discrete,
-    map_dfr(seq_len(2), simulate_data_discrete), # Change number of discrete sims per batch here.
-    pattern = map(batch_index),
+    map_dfr(index_sim, simulate_data_discrete),
+    pattern = map(index_batch),
     format = "fst_tbl"
   ),
   tar_target(
@@ -50,13 +55,13 @@ tar_pipeline(
     # We supply the Stan model specification file target,
     # not the literal path name. This is because {targets}
     # needs to know the model targets depend on the model compilation target.
-    quiet(map_reps(data_continuous, fit_model, model_file = model_file)),
+    map_reps(data_continuous, fit_model, model_file = model_file),
     pattern = map(data_continuous),
     format = "fst_tbl"
   ),
   tar_target(
     fit_discrete,
-    quiet(map_reps(data_discrete, fit_model, model_file = model_file)),
+    map_reps(data_discrete, fit_model, model_file = model_file),
     pattern = map(data_discrete),
     format = "fst_tbl"
   ),

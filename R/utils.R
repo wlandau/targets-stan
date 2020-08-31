@@ -11,6 +11,8 @@
 #' library(cmdstanr)
 #' compile_model("stan/model.stan")
 compile_model <- function(model_file) {
+  quiet_begin()
+  on.exit(quiet_end())
   cmdstan_model(model_file)
   model_file
 }
@@ -29,13 +31,15 @@ compile_model <- function(model_file) {
 #' data <- map_dfr(seq_len(2), simulate_data_discrete)
 #' map_reps(data, fit_model, model_file = "stan/model.stan")
 map_reps <- function(data, fun, ...) {
+  quiet_begin()
+  on.exit(quiet_end())
   data %>%
     group_by(rep) %>%
     group_modify(fun, ...) %>%
     ungroup()
 }
 
-#' @title Suppress stdout for code.
+#' @title Suppress output and messages for code.
 #' @description Used in the pipeline.
 #' @return The result of running the code.
 #' @param code Code to run quietly.
@@ -43,9 +47,28 @@ map_reps <- function(data, fun, ...) {
 #' library(cmdstanr)
 #' library(tidyverse)
 #' compile_model("stan/model.stan")
-#' out <- quiet(fit_model("stan/model.stan", simulate_data_discrete()))
+#' quiet_begin()
+#' out <- fit_model("stan/model.stan", simulate_data_discrete())
+#' quiet_end()
 #' out
-quiet <- function(code) {
-  capture.output(out <- suppressMessages(code))
-  out
+quiet_begin <- function(code) {
+  sink(nullfile(), type = "output")
+  sink(file(nullfile(), open = "wb"), type = "message")
+}
+
+#' @title Unsuppress output and messages for code.
+#' @description Used in the pipeline.
+#' @return The result of running the code.
+#' @param code Code to run quietly.
+#' @examples
+#' library(cmdstanr)
+#' library(tidyverse)
+#' compile_model("stan/model.stan")
+#' quiet_begin()
+#' out <- fit_model("stan/model.stan", simulate_data_discrete())
+#' quiet_end()
+#' out
+quiet_end <- function(code) {
+  sink(type = "output")
+  sink(type = "message")
 }

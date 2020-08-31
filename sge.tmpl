@@ -6,5 +6,5 @@
 #$ -cwd                      # Use project root as working directory.
 #$ -V                        # Use environment variables.
 #$ -pe smp {{ slots | 1 }}   # Set `template = list(slots = 4)` etc. in tar_make_clustermq() to request multiple cores per job.
-# module load R   # Uncomment if R is an environment module on the cluster.
+# module load R              # Uncomment if R is an environment module on the cluster.
 CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")' # Leave alone.

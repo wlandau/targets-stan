@@ -29,8 +29,8 @@ compile_model <- function(model_file) {
 #' library(tidyverse)
 #' compile_model("stan/model.stan")
 #' data <- map_dfr(seq_len(2), simulate_data_discrete)
-#' map_reps(data, fit_model, model_file = "stan/model.stan")
-map_reps <- function(data, fun, ...) {
+#' map_sims(data, fit_model, model_file = "stan/model.stan")
+map_sims <- function(data, fun, ...) {
   quiet_begin()
   on.exit(quiet_end())
   data %>%

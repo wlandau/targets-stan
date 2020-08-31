@@ -55,13 +55,13 @@ tar_pipeline(
     # We supply the Stan model specification file target,
     # not the literal path name. This is because {targets}
     # needs to know the model targets depend on the model compilation target.
-    map_reps(data_continuous, fit_model, model_file = model_file),
+    map_sims(data_continuous, fit_model, model_file = model_file),
     pattern = map(data_continuous),
     format = "fst_tbl"
   ),
   tar_target(
     fit_discrete,
-    map_reps(data_discrete, fit_model, model_file = model_file),
+    map_sims(data_discrete, fit_model, model_file = model_file),
     pattern = map(data_discrete),
     format = "fst_tbl"
   ),

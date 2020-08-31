@@ -40,13 +40,13 @@ tar_pipeline(
   ),
   tar_target(
     data_continuous,
-    map_dfr(index_sim, simulate_data_continuous),
+    map_dfr(index_sim, ~simulate_data_continuous()),
     pattern = map(index_batch),
     format = "fst_tbl"
   ),
   tar_target(
     data_discrete,
-    map_dfr(index_sim, simulate_data_discrete),
+    map_dfr(index_sim, ~simulate_data_discrete()),
     pattern = map(index_batch),
     format = "fst_tbl"
   ),
@@ -55,13 +55,13 @@ tar_pipeline(
     # We supply the Stan model specification file target,
     # not the literal path name. This is because {targets}
     # needs to know the model targets depend on the model compilation target.
-    map_sims(data_continuous, fit_model, model_file = model_file),
+    map_sims(data_continuous, model_file = model_file),
     pattern = map(data_continuous),
     format = "fst_tbl"
   ),
   tar_target(
     fit_discrete,
-    map_sims(data_discrete, fit_model, model_file = model_file),
+    map_sims(data_discrete, model_file = model_file),
     pattern = map(data_discrete),
     format = "fst_tbl"
   ),

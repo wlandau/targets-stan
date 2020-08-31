@@ -11,31 +11,27 @@
 #' library(cmdstanr)
 #' compile_model("stan/model.stan")
 compile_model <- function(model_file) {
-  quiet_begin()
-  on.exit(quiet_end())
-  cmdstan_model(model_file)
+  quiet(cmdstan_model(model_file))
   model_file
 }
 
 #' @title Fit a batch of Stan models.
-#' @description This function fits one model per dataset rep.
+#' @description This function fits one model per dataset sim.
 #' @return A data frame with one row per model fit and columns with
 #'   diagnostics and summary statistics.
+#' @param data Data frame, multiple simulated datasets row-bound together.
+#'   Must have a column called "sim".
 #' @param model_file Path to the Stan model source file.
-#' @param data Data frame, multiple reps of simulated datasets.
-#'   Must have a column called "rep".
 #' @examples
 #' library(cmdstanr)
 #' library(tidyverse)
 #' compile_model("stan/model.stan")
-#' data <- map_dfr(seq_len(2), simulate_data_discrete)
-#' map_sims(data, fit_model, model_file = "stan/model.stan")
-map_sims <- function(data, fun, ...) {
-  quiet_begin()
-  on.exit(quiet_end())
+#' data <- map_dfr(seq_len(2), ~simulate_data_discrete())
+#' map_sims(data, model_file = "stan/model.stan")
+map_sims <- function(data, model_file) {
   data %>%
-    group_by(rep) %>%
-    group_modify(fun, ...) %>%
+    group_by(sim) %>%
+    group_modify(~quiet(fit_model(.x, model_file = model_file))) %>%
     ungroup()
 }
 
@@ -48,27 +44,11 @@ map_sims <- function(data, fun, ...) {
 #' library(tidyverse)
 #' compile_model("stan/model.stan")
 #' quiet_begin()
-#' out <- fit_model("stan/model.stan", simulate_data_discrete())
+#' quiet(fit_model("stan/model.stan", simulate_data_discrete()))
 #' quiet_end()
 #' out
-quiet_begin <- function(code) {
-  sink(nullfile(), type = "output")
-  sink(file(nullfile(), open = "wb"), type = "message")
-}
-
-#' @title Unsuppress output and messages for code.
-#' @description Used in the pipeline.
-#' @return The result of running the code.
-#' @param code Code to run quietly.
-#' @examples
-#' library(cmdstanr)
-#' library(tidyverse)
-#' compile_model("stan/model.stan")
-#' quiet_begin()
-#' out <- fit_model("stan/model.stan", simulate_data_discrete())
-#' quiet_end()
-#' out
-quiet_end <- function(code) {
-  sink(type = "output")
-  sink(type = "message")
+quiet <- function(code) {
+  sink(nullfile())
+  on.exit(sink())
+  suppressMessages(code)
 }

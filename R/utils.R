@@ -43,9 +43,7 @@ map_sims <- function(data, model_file) {
 #' library(cmdstanr)
 #' library(tidyverse)
 #' compile_model("stan/model.stan")
-#' quiet_begin()
 #' quiet(fit_model("stan/model.stan", simulate_data_discrete()))
-#' quiet_end()
 #' out
 quiet <- function(code) {
   sink(nullfile())

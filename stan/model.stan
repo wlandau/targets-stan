@@ -14,5 +14,5 @@ model {
   }
   alpha ~ normal(0, 1);
   beta ~ normal(0, 1);
-  sigma ~ uniform(0, 1);
+  sigma ~ cauchy(0, 1);
 }

@@ -11,7 +11,7 @@
 simulate_data_continuous <- function() {
   alpha <- rnorm(1, 0, 1)
   beta <- rnorm(1, 0, 1)
-  sigma <- runif(1, 0, 1)
+  sigma <- rhcauchy(1, 1)
   x <- rnorm(100, 1, 1) # continuous covariate
   y <- rnorm(100, alpha + x * beta, sigma)
   sim <- basename(tempfile(pattern = "sim"))
@@ -31,7 +31,7 @@ simulate_data_continuous <- function() {
 simulate_data_discrete <- function() {
   alpha <- rnorm(1, 0, 1)
   beta <- rnorm(1, 0, 1)
-  sigma <- runif(1, 0, 1)
+  sigma <- rhcauchy(1, 1)
   x <- rbinom(100, 1, 0.5) # discrete covariate
   y <- rnorm(100, alpha + x * beta, sigma)
   sim <- basename(tempfile(pattern = "sim"))

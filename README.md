@@ -11,7 +11,7 @@ model.
 y_i ~ iid Normal(alpha + x_i * beta, sigma^2)
 alpha ~ Normal(0, 1)
 beta ~ Normal(0, 1)
-sigma ~ Uniform(0, 1)
+sigma ~ HalfCauchy(0, 1)
 ```
 
 We simulate multiple datasets from the model and fit the model on each

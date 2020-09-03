@@ -19,7 +19,7 @@ The goal of this workflow is to validate a small Bayesian hierarchical model.
 y_i ~ iid Normal(alpha + x_i * beta, sigma^2)
 alpha ~ Normal(0, 1)
 beta ~ Normal(0, 1)
-sigma ~ Uniform(0, 1)
+sigma ~ HalfCauchy(0, 1)
 ```
 
 We simulate multiple datasets from the model and fit the model on each dataset. For each model fit, we determine if the 50% credible interval of the regression coefficient `beta` contains the true value of `beta` used to generate the data. If we implemented the model correctly, roughly 50% of the models should recapture the true `beta` in 50% credible intervals.

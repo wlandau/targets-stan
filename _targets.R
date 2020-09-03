@@ -13,7 +13,9 @@ options(clustermq.scheduler = "multicore")
 # options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")
 
 # These packages only get loaded if a target needs to run.
-tar_option_set(packages = c("cmdstanr", "rmarkdown", "tidyverse"))
+tar_option_set(
+  packages = c("cmdstanr", "extraDistr", "rmarkdown", "tidyverse")
+)
 
 tar_pipeline(
   tar_target(

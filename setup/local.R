@@ -1,4 +1,5 @@
-install.packages(c("remotes", "rmarkdown", "tidyverse"))
+packages <- c("extraDistr", "fs", "fst", "remotes", "rmarkdown", "tidyverse")
+install.packages(packages)
 remotes::install_github("wlandau/targets")
 remotes::install_github("wlandau/tarchetypes")
 remotes::install_github("stan-dev/cmdstanr")

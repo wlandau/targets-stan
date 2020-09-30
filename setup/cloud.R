@@ -2,6 +2,7 @@ install.packages(
   c(
     "extraDistr",
     "fs",
+    "fst",
     "remotes",
     "rmarkdown",
     "rprojroot",

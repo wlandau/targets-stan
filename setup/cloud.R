@@ -1,5 +1,6 @@
 install.packages(
   c(
+    "extraDistr",
     "fs",
     "remotes",
     "rmarkdown",

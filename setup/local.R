@@ -1,3 +1,5 @@
-install.packages(c("remotes", "rmarkdown", "targets", "tidyverse"))
+install.packages(c("remotes", "rmarkdown", "tidyverse"))
+remotes::install_github("wlandau/targets")
+remotes::install_github("wlandau/tarchetypes")
 remotes::install_github("stan-dev/cmdstanr")
 cmdstanr::install_cmdstan()

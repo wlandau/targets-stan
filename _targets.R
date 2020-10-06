@@ -28,17 +28,17 @@ tar_pipeline(
     # at those paths.
     format = "file",
     # Do not run on a parallel worker:
-    deployment = "local"
+    deployment = "master"
   ),
   tar_target(
     index_batch,
     seq_len(2), # Change the number of simulation batches here.
-    deployment = "local"
+    deployment = "master"
   ),
   tar_target(
     index_sim,
     seq_len(2), # Change the number of simulations per batch here.
-    deployment = "local"
+    deployment = "master"
   ),
   tar_target(
     data_continuous,

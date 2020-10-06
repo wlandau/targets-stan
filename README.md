@@ -70,12 +70,8 @@ The files in this example are organized as follows.
 
 This project has an [RStudio
 Cloud](https://rstudio.cloud/project/1430719/) workspace that lets you
-try out the example code in the cloud with only a web browser and an
-internet connection. Unfortunately, as [explained
-here](https://community.rstudio.com/t/stan-on-rstudio-cloud-not-working/49224/3),
-`rstan` cannot currently compile models in RStudio Cloud because it hits
-the 1 GB memory limit. The Stan maintainers will likely fix this at some
-point.
+try out the example code in the cloud using only a web browser and an
+internet connection. To run locally, clone this repository and run [this script](https://github.com/wlandau/targets-stan/blob/master/setup/local.R) to install the R package dependencies and [CmdStan](https://github.com/stan-dev/cmdstan).
 
 ## How to run
 

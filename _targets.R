@@ -17,6 +17,8 @@ tar_option_set(
   packages = c("cmdstanr", "extraDistr", "rmarkdown", "tidyverse")
 )
 
+future::plan(future::multisession)
+
 tar_pipeline(
   tar_target(
     model_file,
@@ -28,17 +30,17 @@ tar_pipeline(
     # at those paths.
     format = "file",
     # Do not run on a parallel worker:
-    deployment = "master"
+    deployment = "main"
   ),
   tar_target(
     index_batch,
     seq_len(2), # Change the number of simulation batches here.
-    deployment = "master"
+    deployment = "main"
   ),
   tar_target(
     index_sim,
     seq_len(2), # Change the number of simulations per batch here.
-    deployment = "master"
+    deployment = "main"
   ),
   tar_target(
     data_continuous,

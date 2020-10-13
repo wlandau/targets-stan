@@ -1,7 +1,7 @@
 # Prework
 
-* [ ] I understand and agree to this repository's [code of conduct](https://github.com/wlandau/targets-stan/blob/master/CODE_OF_CONDUCT.md).
-* [ ] I understand and agree to this repository's [contributing guidelines](https://github.com/wlandau/targets-stan/blob/master/CONTRIBUTING.md).
+* [ ] I understand and agree to this repository's [code of conduct](https://github.com/wlandau/targets-stan/blob/main/CODE_OF_CONDUCT.md).
+* [ ] I understand and agree to this repository's [contributing guidelines](https://github.com/wlandau/targets-stan/blob/main/CONTRIBUTING.md).
 * [ ] I have already submitted an issue to the [issue tracker](http://github.com/wlandau/targets-stan/issues) to discuss my idea with the maintainer.
 
 # Summary

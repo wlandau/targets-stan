@@ -4,8 +4,7 @@
 [![Launch RStudio
 Cloud](https://img.shields.io/badge/RStudio-Cloud-blue)](https://rstudio.cloud/project/1430719/)
 
-The goal of this workflow is to validate a small Bayesian hierarchical
-model.
+The goal of this workflow is to validate a small Bayesian model.
 
 ``` r
 y_i ~ iid Normal(alpha + x_i * beta, sigma^2)

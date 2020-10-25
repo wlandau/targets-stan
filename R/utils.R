@@ -50,3 +50,32 @@ quiet <- function(code) {
   on.exit(sink())
   suppressMessages(code)
 }
+
+#' @title Export MCMC results
+#' @description Save model fitting results to a
+#'   compressed file called "results.fst".
+#' @return Path to the output file ("results.fst").
+#' @param continuous Data frame of results from the continuous model.
+#' @param discrete Data frame of results from the discrete model.
+export_results <- function(continuous, discrete) {
+  bind_rows(continuous = continuous, discrete = discrete, .id = "model") %>%
+    write_fst("results.fst", compress = 100)
+  "results.fst"
+}
+
+#' @title Deploy a dashboard to shinyapps.io
+#' @description Publish a dashboard that visualizes the model results.
+#' @return Nothing.
+#' @param app_source Path to the "app.R" file for the app.
+#' @param results_file Path to the "results.fst" file
+#'   with the data that the app needs.
+deploy_app <- function(app_source, results_file) {
+  rsconnect::deployApp(
+    appFiles = c(app_source, results_file),
+    appName = "mcmc-results",
+    appTitle = "mcmc-results",
+    forceUpdate = TRUE,
+    account = Sys.getenv("USER"),
+    server = "shinyapps.io"
+  )
+}

@@ -14,7 +14,7 @@ options(clustermq.scheduler = "multicore")
 
 # These packages only get loaded if a target needs to run.
 tar_option_set(
-  packages = c("cmdstanr", "extraDistr", "rmarkdown", "tidyverse")
+  packages = c("cmdstanr", "extraDistr", "fst", "rmarkdown", "tidyverse")
 )
 
 future::plan(future::multisession)
@@ -69,5 +69,12 @@ tar_pipeline(
     pattern = map(data_discrete),
     format = "fst_tbl"
   ),
-  tar_render(report, "report.Rmd")
+  tar_render(report, "report.Rmd") # ,
+  # tar_target(
+  #   results_file,
+  #   export_results(continuous = fit_continuous, discrete = fit_discrete),
+  #   format = "file"
+  # ),
+  # tar_target(app_source, "app.R", format = "file"),
+  # tar_target(deploy, deploy_app(app_source, results_file), deployment = "main")
 )

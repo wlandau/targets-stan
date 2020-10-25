@@ -19,3 +19,5 @@ stan/model.rds
 _targets
 report.html
 .Rproj.user
+rsconnect
+*.fst

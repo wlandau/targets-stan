@@ -4,8 +4,7 @@
 [![Launch RStudio
 Cloud](https://img.shields.io/badge/RStudio-Cloud-blue)](https://rstudio.cloud/project/1430719/)
 
-The goal of this workflow is to validate a small Bayesian
-model.
+The goal of this workflow is to validate a small Bayesian model.
 
 ``` r
 y_i ~ iid Normal(alpha + x_i * beta, sigma^2)
@@ -55,9 +54,9 @@ The files in this example are organized as follows.
 └── report.Rmd
 ```
 
-| File                                                                                     | Purpose                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`run.sh`](https://github.com/wlandau/targets-stan/blob/main/run.sh)                   | Shell script to run [`run.R`](https://github.com/wlandau/targets-stan/blob/main/run.R) in a persistent background process. Works on Unix-like systems. Helpful for long computations on servers.                                                                                                                                                                                                          |
+| File                                                                                   | Purpose                                                                                                                                                                                                                                                                                                                                                                                                     |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`run.sh`](https://github.com/wlandau/targets-stan/blob/main/run.sh)                   | Shell script to run [`run.R`](https://github.com/wlandau/targets-stan/blob/main/run.R) in a persistent background process. Works on Unix-like systems. Helpful for long computations on servers.                                                                                                                                                                                                            |
 | [`run.R`](https://github.com/wlandau/targets-stan/blob/main/run.R)                     | R script to run `tar_make()` or `tar_make_clustermq()` (uncomment the function of your choice.)                                                                                                                                                                                                                                                                                                             |
 | [`_targets.R`](https://github.com/wlandau/targets-stan/blob/main/_targets.R)           | The special R script that declares the [`targets`](https://github.com/wlandau/targets) pipeline. See `tar_script()` for details.                                                                                                                                                                                                                                                                            |
 | [`sge.tmpl`](https://github.com/wlandau/targets-stan/blob/main/sge.tmpl)               | A [`clustermq`](https://github.com/mschubert/clustermq) template file to deploy targets in parallel to a Sun Grid Engine cluster. The comments in this file explain some of the choices behind the pipeline construction and arguments to `tar_target()`.                                                                                                                                                   |
@@ -70,8 +69,12 @@ The files in this example are organized as follows.
 
 This project has an [RStudio
 Cloud](https://rstudio.cloud/project/1430719/) workspace that lets you
-try out the example code in the cloud using only a web browser and an
-internet connection. To run locally, clone this repository and run [this script](https://github.com/wlandau/targets-stan/blob/main/setup/local.R) to install the R package dependencies and [CmdStan](https://github.com/stan-dev/cmdstan).
+try out the example code in the cloud with only a web browser and an
+internet connection. Unfortunately, as [explained
+here](https://community.rstudio.com/t/stan-on-rstudio-cloud-not-working/49224/3),
+`rstan` cannot currently compile models in RStudio Cloud because it hits
+the 1 GB memory limit. The Stan maintainers will likely fix this at some
+point.
 
 ## How to run
 
@@ -114,7 +117,7 @@ and
 [`_targets.R`](https://github.com/wlandau/targets-stan/blob/main/_targets.R).
 
 | Mode            | When to use                        | Instructions for [`run.R`](https://github.com/wlandau/targets-stan/blob/main/run.R) | Instructions for [`_targets.R`](https://github.com/wlandau/targets-stan/blob/main/_targets.R) |
-| --------------- | ---------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Sequential      | Low-spec local machine or Windows. | Uncomment `tar_make()`                                                                | No action required.                                                                             |
-| Local multicore | Local machine with a Unix-like OS. | Uncomment `tar_make_clustermq()`                                                      | Uncomment `options(clustermq.scheduler = "multicore")`                                          |
-| Sun Grid Engine | Sun Grid Engine cluster.           | Uncomment `tar_make_clustermq()`                                                      | Uncomment `options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")`               |
+| --------------- | ---------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Sequential      | Low-spec local machine or Windows. | Uncomment `tar_make()`                                                              | No action required.                                                                           |
+| Local multicore | Local machine with a Unix-like OS. | Uncomment `tar_make_clustermq()`                                                    | Uncomment `options(clustermq.scheduler = "multicore")`                                        |
+| Sun Grid Engine | Sun Grid Engine cluster.           | Uncomment `tar_make_clustermq()`                                                    | Uncomment `options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")`             |

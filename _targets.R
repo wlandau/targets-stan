@@ -34,12 +34,12 @@ tar_pipeline(
   ),
   tar_target(
     index_batch,
-    seq_len(2), # Change the number of simulation batches here.
+    seq_len(30), # Change the number of simulation batches here.
     deployment = "main"
   ),
   tar_target(
     index_sim,
-    seq_len(2), # Change the number of simulations per batch here.
+    seq_len(20), # Change the number of simulations per batch here.
     deployment = "main"
   ),
   tar_target(

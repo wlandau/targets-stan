@@ -39,7 +39,11 @@ body <- bs4DashBody(
   )
 )
 
-ui <- bs4DashPage(title = "MCMC Results", body = body)
+ui <- bs4DashPage(
+  title = "MCMC Results",
+  body = body,
+  sidebar = bs4DashSidebar(disable = TRUE)
+)
 
 server <- function(input, output) {
   results <- read_fst("results.fst")

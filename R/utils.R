@@ -75,7 +75,7 @@ deploy_app <- function(app_source, results_file) {
     appName = "mcmc-results",
     appTitle = "mcmc-results",
     forceUpdate = TRUE,
-    account = "wlandau", # Sys.getenv("USER")
+    account = Sys.getenv("USER"),
     server = "shinyapps.io"
   )
 }

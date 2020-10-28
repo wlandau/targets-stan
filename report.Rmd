@@ -17,6 +17,7 @@ This report contains the validation results of a small Bayesian hierarchical mod
 
 ```{r}
 library(targets)
+library(tidyverse)
 tar_load(fit_continuous)
 ```
 

@@ -1,7 +1,7 @@
 Package: targets.stan
 Title: An Example Targets Pipeline for Bayesian Data Analysis
 Description: This pipeline uses a targets pipeline to validate a
-  small hierarchical Stan model.
+  small Stan model.
 Version: 0.0.0.9000
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/targets-stan,

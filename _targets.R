@@ -17,7 +17,7 @@ tar_option_set(
   packages = c("cmdstanr", "extraDistr", "fst", "rmarkdown", "tidyverse")
 )
 
-future::plan(future::multisession)
+# future::plan(future::multisession)
 
 tar_pipeline(
   tar_target(

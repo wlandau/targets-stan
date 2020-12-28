@@ -1,5 +1,6 @@
 ---
 output: github_document
+bibliography: README.bib
 ---
 
 ```{r, include = FALSE}
@@ -13,7 +14,9 @@ knitr::opts_chunk$set(
 
 [![Launch RStudio Cloud](https://img.shields.io/badge/RStudio-Cloud-blue)](https://rstudio.cloud/project/1430719/)
 
-The goal of this workflow is to validate a small Bayesian model.
+The goal of this workflow is to validate a small Bayesian model using simulation-based calibration [SBC; @cook2006; @talts2020]. We simulate multiple datasets from the model and fit the model on each dataset. For each model fit, we determine if the 50% credible interval of the regression coefficient `beta` contains the true value of `beta` used to generate the data. If we implemented the model correctly, roughly 50% of the models should recapture the true `beta` in 50% credible intervals.
+
+## The model
 
 ```{r, eval = FALSE}
 y_i ~ iid Normal(alpha + x_i * beta, sigma^2)
@@ -21,8 +24,6 @@ alpha ~ Normal(0, 1)
 beta ~ Normal(0, 1)
 sigma ~ HalfCauchy(0, 1)
 ```
-
-We simulate multiple datasets from the model and fit the model on each dataset. For each model fit, we determine if the 50% credible interval of the regression coefficient `beta` contains the true value of `beta` used to generate the data. If we implemented the model correctly, roughly 50% of the models should recapture the true `beta` in 50% credible intervals.
 
 ## The `targets` pipeline
 
@@ -108,3 +109,5 @@ algorithms (MCMC, variational Bayes, and optimization) and it supports
 both single-fit workflows and multi-rep simulation studies.
 
 [`stantargets`](https://github.com/wlandau/stantargets) condenses the workflow in this repo down to [this simple pipeline statement](https://wlandau.github.io/stantargets/articles/mcmc_rep.html) without loss of technical sophistication or computing power. The former requires users to think carefully about dynamic branching and file tracking, and the latter uses domain knowledge to abstract away these intimidating concepts.
+
+## References

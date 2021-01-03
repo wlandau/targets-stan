@@ -19,7 +19,7 @@ tar_option_set(
 
 # future::plan(future::multisession)
 
-tar_pipeline(
+list(
   tar_target(
     model_file,
     # Returns the paths to the Stan source file.

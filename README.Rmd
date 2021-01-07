@@ -41,6 +41,10 @@ tar_visnetwork()
 
 You can try out this example project as long as you have a browser and an internet connection. [Click here](https://rstudio.cloud/project/1430719/) to navigate your browser to an RStudio Cloud instance. Alternatively, you can clone or download this code repository and install the R packages [listed here](https://github.com/wlandau/targets-minimal/blob/03835c2aa4679dcf3f28c623a06d7505b18bee17/DESCRIPTION#L25-L30).
 
+## How to run
+
+In the R console, call the [`tar_make()`](https://wlandau.github.io/targets/reference/tar_make.html) function to run the pipeline. Then, call `tar_read(hist)` to retrieve the histogram. Experiment with [other functions](https://wlandau.github.io/targets/reference/index.html) such as [`tar_visnetwork()`](https://wlandau.github.io/targets/reference/tar_visnetwork.html) to learn how they work.
+
 ## File structure
 
 The files in this example are organized as follows.

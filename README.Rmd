@@ -37,6 +37,10 @@ tar_visnetwork()
 
 ![](./images/graph.png)
 
+## How to access
+
+You can try out this example project as long as you have a browser and an internet connection. [Click here](https://rstudio.cloud/project/1430719/) to navigate your browser to an RStudio Cloud instance. Alternatively, you can clone or download this code repository and install the R packages [listed here](https://github.com/wlandau/targets-minimal/blob/03835c2aa4679dcf3f28c623a06d7505b18bee17/DESCRIPTION#L25-L30).
+
 ## File structure
 
 The files in this example are organized as follows.
@@ -66,20 +70,7 @@ File | Purpose
 [`stan/model.stan`](https://github.com/wlandau/targets-stan/blob/main/stan/model.stan) | The specification of our Stan model.
 [`report.Rmd`](https://github.com/wlandau/targets-stan/blob/main/report.Rmd) | An R Markdown report summarizing the results of the analysis. For more information on how to include R Markdown reports as reproducible components of the pipeline, see the `tar_render()` function from the [`tarchetypes`](https://wlandau.github.io/tarchetypes) package and the [literate programming chapter of the manual](https://wlandau.github.io/targets-manual/files.html#literate-programming).
 
-## How to access
-
-This project has an [RStudio Cloud](https://rstudio.cloud/project/1430719/) workspace that lets you try out the example code in the cloud with only a web browser and an internet connection. Unfortunately, as [explained here](https://community.rstudio.com/t/stan-on-rstudio-cloud-not-working/49224/3), `rstan` cannot currently compile models in RStudio Cloud because it hits the 1 GB memory limit. The Stan maintainers will likely fix this at some point.
-
-## How to run
-
-1. If you are running locally instead of [this RStudio cloud workspace](https://rstudio.cloud/project/1430691)
-    1. Install the [`targets`](https://github.com/wlandau/targets) package, as well as the packages listed in the `tar_option_set()` call in [`_targets.R`](https://github.com/wlandau/targets-stan/blob/main/_targets.R).
-    1. Download the files in [this repository](https://github.com/wlandau/targets-stan), either [through Git](https://happygitwithr.com/existing-github-first.html#new-rstudio-project-via-git-clone) or through [this link](https://github.com/wlandau/targets-stan/archive/main.zip).
-1. Run the `targets` pipeline by either running [`run.R`](https://github.com/wlandau/targets-stan/blob/main/run.R) or [`run.sh`](https://github.com/wlandau/targets-stan/blob/main/run.sh). (The latter is for Unix-like systems only). This computation could take a while.
-1. View the validation results in the output `report.html` file.
-1. Make changes to the R code or Stan model, rerun the pipeline, and watch `targets` skip steps that are already up to date.
-
-## Scale out
+## Scaling out
 
 This computation is currently downsized for pedagogical purposes. To scale it up, open the [`_targets.R`](https://github.com/wlandau/targets-stan/blob/main/_targets.R) script and increase the number of simulations (the number inside `seq_len()` in the `index` target).
 

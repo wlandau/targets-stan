@@ -120,30 +120,6 @@ and
 | Local multicore | Local machine with a Unix-like OS. | Uncomment `tar_make_clustermq()`                                                    | Uncomment `options(clustermq.scheduler = "multicore")`                                        |
 | Sun Grid Engine | Sun Grid Engine cluster.           | Uncomment `tar_make_clustermq()`                                                    | Uncomment `options(clustermq.scheduler = "sge", clustermq.template = "sge.tmpl")`             |
 
-## stantargets
-
-The [`stantargets`](https://github.com/wlandau/stantargets) R package is
-an extension to [`targets`](https://github.com/wlandau/targets) and
-[`cmdstanr`](https://github.com/stan-dev/cmdstanr) for Bayesian data
-analysis. [`stantargets`](https://github.com/wlandau/stantargets) makes
-it super easy to set up useful scalable Stan pipelines that
-automatically parallelize the computation and skip expensive steps when
-the results are already up to date. Minimal custom code is required, and
-there is no need to manually configure branching, so usage is much
-easier than [`targets`](https://github.com/wlandau/targets) alone.
-[`stantargets`](https://github.com/wlandau/stantargets) can access all
-of [`cmdstanr`](https://github.com/stan-dev/cmdstanr)’s major algorithms
-(MCMC, variational Bayes, and optimization) and it supports both
-single-fit workflows and multi-rep simulation studies.
-
-[`stantargets`](https://github.com/wlandau/stantargets) condenses the
-workflow in this repo down to [this simple pipeline
-statement](https://wlandau.github.io/stantargets/articles/mcmc_rep.html)
-without loss of technical sophistication or computing power. The former
-requires users to think carefully about dynamic branching and file
-tracking, and the latter uses domain knowledge to abstract away these
-intimidating concepts.
-
 ## References
 
 <div id="refs" class="references hanging-indent">

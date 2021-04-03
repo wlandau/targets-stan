@@ -4,14 +4,25 @@
 [![Launch RStudio
 Cloud](https://img.shields.io/badge/RStudio-Cloud-blue)](https://rstudio.cloud/project/1430719/)
 
-The goal of this workflow is to validate a small Bayesian model using
-simulation-based calibration (SBC; Cook, Gelman, and Rubin 2006; Talts
-et al. 2020). We simulate multiple datasets from the model and fit the
-model on each dataset. For each model fit, we determine if the 50%
-credible interval of the regression coefficient `beta` contains the true
-value of `beta` used to generate the data. If we implemented the model
-correctly, roughly 50% of the models should recapture the true `beta` in
-50% credible intervals.
+The goal of this workflow is to validate a small Bayesian model using an
+interval-based method similar to simulation-based calibration (SBC;
+Cook, Gelman, and Rubin 2006; Talts et al. 2020). We simulate multiple
+datasets from the model and fit the model on each dataset. For each
+model fit, we determine if the 50% credible interval of the regression
+coefficient `beta` contains the true value of `beta` used to generate
+the data. If we implemented the model correctly, roughly 50% of the
+models should recapture the true `beta` in 50% credible intervals.
+
+## Consider stantargets
+
+The [`stantargets`](https://wlandau.github.io/stantargets/) R package is
+an extension to [`targets`](https://docs.ropensci.org/targets/) and
+[`cmdstanr`](https://github.com/stan-dev/cmdstanr) for Bayesian data
+analysis, and it makes the latter two packages easier to use together.
+The pipeline in this repo can be written far more concisely using the
+[`tar_stan_mcmc_rep_summary()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc_rep_summary.html)
+function, as described in the [this
+vignette](https://wlandau.github.io/stantargets/articles/mcmc_rep.html).
 
 ## The model
 

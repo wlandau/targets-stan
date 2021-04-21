@@ -21,8 +21,14 @@ an extension to [`targets`](https://docs.ropensci.org/targets/) and
 analysis, and it makes the latter two packages easier to use together.
 The pipeline in this repo can be written far more concisely using the
 [`tar_stan_mcmc_rep_summary()`](https://wlandau.github.io/stantargets/reference/tar_stan_mcmc_rep_summary.html)
-function, as described in the [this
-vignette](https://wlandau.github.io/stantargets/articles/mcmc_rep.html).
+function (see [this
+vignette](https://wlandau.github.io/stantargets/articles/mcmc_rep.html)).
+<https://github.com/wlandau/stantargets-example-validation> is a version
+of this example project that uses
+[`stantargets`](https://wlandau.github.io/stantargets/), and the
+[pipeline in the `_targets.R`
+file](https://github.com/wlandau/stantargets-example-validation/blob/main/_targets.R)
+is much simpler and easier to define.
 
 ## The model
 
